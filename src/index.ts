@@ -6,7 +6,7 @@ const mc = new MyClass();
 mc.someValue = "hello";
 
 const myFunc = (val: string) => {
-  console.log(val);
+  console.log(val); // typo
 };
 
 myFunc(mc.someValue);
