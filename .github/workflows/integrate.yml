@@ -2,7 +2,9 @@ name: Node continuous Integration
 
 on:
   push:
-    # branches: [master]iya9pdlss
+    # branches: [master]
+  pull_request:
+    branches: [master]
 
     
 jobs:
