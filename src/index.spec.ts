@@ -4,6 +4,7 @@ describe("Test suite 1", () => {
     const secretValue: String | undefined = process.env.SECRET1;
 
     // verify
+    console.log("Secret injected:" + secretValue);
     expect(secretValue).toBeDefined();
     expect((secretValue as String).length > 0).toBeTruthy();
   });
