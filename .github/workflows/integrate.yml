@@ -1,4 +1,6 @@
 name: Node continuous Integration
+env:
+     SECRET1: ${{ SECRET1 }}
 
 on:
   push: # now all branches
