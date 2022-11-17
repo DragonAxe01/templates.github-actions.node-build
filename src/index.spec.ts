@@ -1,6 +1,5 @@
 describe("Configs", () => {
   test("Injected local config", () => {
-    throw Error("XXXXXXXXXXX");
     // prepare
     const expected = "this is my config";
 
