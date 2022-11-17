@@ -6,6 +6,9 @@
 .env.production.local
 .env.local
 
+# test reports
+test-report.xml
+
 # Logs
 logs
 *.log

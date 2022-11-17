@@ -1,5 +1,5 @@
 name: Node continuous Integration template
-# env: ## alternate way to inject env variables
+# env: #alternate way to inject env variables
 # SECRET1: ${{ secrets.SECRET1 }}
 
 on:
@@ -34,5 +34,5 @@ jobs:
         if: success() || failure() # run this step even if previous step failed
         with:
           name: JEST Tests # Name of the check run which will be created
-          path: reports/jest-*.xml # Path to test results
+          path: ./reports/jest-test-report.xml # Path to test results
           reporter: jest-junit # Format of test results

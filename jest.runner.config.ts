@@ -14,9 +14,7 @@ const config: Config.InitialOptions = {
   transform: {
     ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js",
   },
-  testMatch: ["**/*.(spec|test).ts"],
   moduleFileExtensions: ["ts", "tsx", "js"],
-  reporters: ["default", "jest-junit"],
 };
 
 export default config;
