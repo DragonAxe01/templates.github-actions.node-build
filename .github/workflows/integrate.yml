@@ -1,13 +1,12 @@
-name: Node continuous Integration
-env:
-     SECRET1: ${{ secrets.SECRET1 }}
+name: Node continuous Integration template
+# env: ## alternate way to inject env variables
+# SECRET1: ${{ secrets.SECRET1 }}
 
 on:
   push:
   pull_request:
     branches: [master]
 
-    
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
@@ -16,7 +15,17 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test
+          cache: "npm"
+      - name: install dependencies
+        run: npm ci
+      - name: inject secrets
+        run: |
+          echo MY_SECRET=${{ secrets.MY_SECRET }} >> .env.secrets
+      - name: show configs and secrets (debugging) # for debugging, will replace injected values by ***
+        run: cat .env*
+      - name: show file tree (debugging)
+        run: ls -alR -I .git -I node_modules -I .vscode -I .github
+      - name: run tests
+        run: npm run test
+      - name: build
+        run: npm run build
