@@ -32,3 +32,13 @@ jobs:
           github_token: ${{env.token}}
           release_branches: master
           # custom_tag: 0.0.2
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./dist/**"
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          # tag: ${{ steps.tag_version.outputs.new_tag }}
+          # name: Release ${{ steps.tag_version.outputs.new_tag }}
+          # body: ${{ steps.tag_version.outputs.changelog }}
