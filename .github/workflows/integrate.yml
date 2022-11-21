@@ -8,7 +8,7 @@ on:
     branches: [master]
 
 jobs:
-  build_and_test:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,12 +27,50 @@ jobs:
         run: ls -alR -I .git -I node_modules -I .vscode -I .github
       - name: run tests
         run: npm run test
-      # - name: build
-      # run: npm run build
       - name: test report
         uses: dorny/test-reporter@v1
         if: success() || failure() # run this step even if previous step failed
         with:
-          name: JEST Tests # Name of the check run which will be created
-          path: ./reports/jest-test-report.xml # Path to test results
-          reporter: jest-junit # Format of test results
+          name: JEST Tests
+          path: ./reports/jest-test-report.xml
+          reporter: jest-junit # format of test results
+
+  deploy-prod:
+    runs-on: "ubuntu-latest"
+    # environment: 'prod'
+    needs: [test-and-build]
+    steps:
+      # - name: Approve deployment
+      #   uses: trstringer/manual-approval@v1
+      #   with:
+      #     # secret: ${{ github.TOKEN }}
+      #     approvers: DragonAxe01
+      #     minimum-approvals: 1
+      #     issue-title: "Publishing the artifact"
+      #     exclude-workflow-initiator-as-approver: false
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+      - name: install dependencies
+        run: npm ci
+      - name: inject secrets
+        run: |
+          echo MY_SECRET=${{ secrets.MY_SECRET }} >> .env.secrets
+      - name: show configs and secrets (debugging) # for debugging, will replace injected values by ***
+        run: cat .env*
+      - name: build
+        run: npm run build
+      - name: show file tree (debugging)
+        run: ls -alR -I .git -I node_modules -I .vscode -I .github
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: ./dist # or path/to/artifact
+      # - name: publish artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: published-app
+      #     path: "./dist"
