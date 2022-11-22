@@ -1,12 +1,12 @@
 {
   "name": "dragonaxe.templates.github-actions.node-build",
-  "version": "0.0.0",
+  "version": "",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
     "test": "jest --verbose --coverage --collectCoverageFrom='./src/**' --config:jest.config.ts",
-    "zip-build": "npm-build-zip --source=./dist --destination=dist-zipped"
+    "zip-build": "npm-build-zip --source=./dist --destination=dist-zipped name=app --info=true"
   },
   "repository": {
     "type": "git",
