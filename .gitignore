@@ -6,6 +6,9 @@
 .env.production.local
 .env.local
 
+# artifacts
+*.zip
+
 # test reports
 test-report.xml
 
