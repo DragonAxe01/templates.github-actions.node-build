@@ -1,4 +1,4 @@
-name: Node continuous Integration template
+name: Test and release Beta version
 
 env:
   major: 0

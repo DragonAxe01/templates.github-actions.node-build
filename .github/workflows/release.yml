@@ -1,4 +1,4 @@
-name: Node continuous Integration template
+name: Release version
 
 env:
   major: 0
@@ -26,6 +26,17 @@ jobs:
 
       - name: show configs and secrets (debugging) # for debugging, will replace injected values by ***
         run: cat .env*
+
+      - name: run tests
+        run: npm run test
+
+      - name: test report
+        uses: dorny/test-reporter@v1
+        if: success() || failure() # run this step even if previous step failed
+        with:
+          name: Jest tests
+          path: ./reports/jest-test-report.xml
+          reporter: jest-junit # format of test results
 
       - name: build
         run: npm run build
