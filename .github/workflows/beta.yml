@@ -84,7 +84,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         id: changelog_gen
         with:
-          branch: main
+          branch: master
           commit_message: "docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]"
           file_pattern: CHANGELOG.md
 
