@@ -1,4 +1,4 @@
-name: Release version
+name: Make release
 
 env:
   major: 0
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-release:
+  make-release:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
