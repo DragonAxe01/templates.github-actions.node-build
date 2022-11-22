@@ -5,7 +5,6 @@ env:
   minor: 0
 
 on:
-  workflow_dispatch:
   push:
     branches: [master, main, feature/pipeline/**]
 
