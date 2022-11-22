@@ -18,21 +18,35 @@ jobs:
         with:
           node-version: 16
           cache: "npm"
+
       - name: install dependencies
         run: npm ci
+
       - name: inject secrets
         run: |
           echo MY_SECRET=${{ secrets.MY_SECRET }} >> .env.secrets
+
       - name: show configs and secrets (debugging) # for debugging, will replace injected values by ***
         run: cat .env*
+
       - name: build
         run: npm run build
+
       - name: show file tree (debugging)
         run: ls -alR -I .git -I node_modules -I .vscode -I .github
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        id: changelog_gen
+        with:
+          branch: main
+          commit_message: "docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]"
+          file_pattern: CHANGELOG.md
+
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "./dist/**"
           tag: ${{ env.major }}.${{ env.minor }}.${{github.run_id}}
           name: Release ${{ env.major }}.${{ env.minor }}.${{github.run_id}}
-          # body: # todo changelog
+          body: ${{ steps.changelog_gen.outputs.changes }}
