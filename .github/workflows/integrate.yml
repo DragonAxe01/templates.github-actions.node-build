@@ -60,6 +60,7 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ env.token }}
+          approvers: DragonAxe01
 
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
