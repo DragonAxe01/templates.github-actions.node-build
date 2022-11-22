@@ -74,6 +74,9 @@ jobs:
       - name: build
         run: npm run build
 
+      - name: zip
+        run: npm run zip-build
+
       - name: show file tree (debugging)
         run: ls -alR -I .git -I node_modules -I .vscode -I .github
 
@@ -88,7 +91,7 @@ jobs:
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./dist/**"
+          artifacts: "./dist-zipped/**"
           tag: ${{ env.major }}.${{ env.minor }}.${{github.run_id}}-beta
           name: Release ${{ env.major }}.${{ env.minor }}.${{github.run_id}}-beta
           body: ${{ steps.changelog_gen.outputs.changes }}
