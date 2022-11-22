@@ -10,6 +10,45 @@ on:
     branches: [master, main]
 
 jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: inject secrets
+        run: |
+          echo MY_SECRET=${{ secrets.MY_SECRET }} >> .env.secrets
+
+      - name: show configs and secrets (debugging) # for debugging, will replace injected values by ***
+        run: cat .env*
+
+      - name: show file tree (debugging)
+        run: ls -alR -I .git -I node_modules -I .vscode -I .github
+
+      - name: run tests
+        run: npm run test
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: ./dist # or path/to/artifact
+
+      - name: test report
+        uses: dorny/test-reporter@v1
+        if: success() || failure() # run this step even if previous step failed
+        with:
+          name: Jest tests
+          path: ./reports/jest-test-report.xml
+          reporter: jest-junit # format of test results
+
   deploy-release:
     runs-on: "ubuntu-latest"
     steps:
