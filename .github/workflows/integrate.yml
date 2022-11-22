@@ -2,8 +2,12 @@ name: Node continuous Integration template
 
 env:
   token: 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
+  major: 0
+  minor: 0
 
-on: push
+on:
+  push:
+    branches: [master, main]
 
 jobs:
   deploy-release:
@@ -25,20 +29,10 @@ jobs:
         run: npm run build
       - name: show file tree (debugging)
         run: ls -alR -I .git -I node_modules -I .vscode -I .github
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{env.token}}
-          release_branches: master
-          # custom_tag: 0.0.2
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "./dist/**"
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
-          # tag: ${{ steps.tag_version.outputs.new_tag }}
-          # name: Release ${{ steps.tag_version.outputs.new_tag }}
-          # body: ${{ steps.tag_version.outputs.changelog }}
+          tag: ${{ env.major }}.${{ env.minor }}.${{github.run_id}}
+          name: Release ${{ env.major }}.${{ env.minor }}
+          # body: # todo changelog
