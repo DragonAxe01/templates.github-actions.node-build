@@ -3,6 +3,7 @@ name: Test and release Beta version
 env:
   major: 0
   minor: 0
+  artifact-name: beta-app
 
 on:
   push:
@@ -40,7 +41,7 @@ jobs:
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: ${{ env.artifact-name}}
           path: ./dist
 
       - name: test report
