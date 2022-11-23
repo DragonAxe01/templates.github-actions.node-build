@@ -1,6 +1,7 @@
 name: Test and release Beta version
 
 env:
+  CI: false
   major: 0
   minor: 0
   artifact-name: beta-app
@@ -13,7 +14,7 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -40,6 +41,7 @@ jobs:
 
       - name: upload artifact
         uses: actions/upload-artifact@v3
+        if: success() || failure()
         with:
           name: ${{ env.artifact-name}}
           path: ./dist
@@ -56,7 +58,7 @@ jobs:
     runs-on: "ubuntu-latest"
     needs: [test-and-build]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
