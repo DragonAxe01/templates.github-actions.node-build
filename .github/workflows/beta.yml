@@ -48,7 +48,7 @@ jobs:
 
       - name: test report
         uses: dorny/test-reporter@v1
-        if: success() || failure() # run this step even if previous step failed
+        if: success() || failure()
         with:
           name: Jest tests
           path: ./reports/jest-test-report.xml
